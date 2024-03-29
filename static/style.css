@@ -1,0 +1,53 @@
+body{
+
+}
+
+
+#row{
+height: 50%;
+}
+
+h2{
+font-size: xx-large;
+margin:0px;
+
+}
+
+#columns{
+display:flex;
+flex-direction: row;
+flex-wrap: nowrap;
+justify-content:space-around;
+
+}
+
+#clava{
+display: flex;
+flex-direction: column;
+justify-content:space-evenly;
+width:30%;
+}
+
+form{
+display: flex;
+flex-direction: column;
+width:30%;
+justify-content: space-evenly;
+border : solid;
+align-items: center;
+
+}
+
+#instructions{
+width:30%;
+}
+
+p{
+align-items:center;
+margin:0px;
+}
+
+
+width:15px;
+}
+

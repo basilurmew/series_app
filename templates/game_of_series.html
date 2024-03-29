@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style_game.css') }}">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <title>Document</title>
+
+    </head>
+    <body>
+        <h2>Признаки<br></h2>
+        <p>\[{{getted_series}}\]</p>
+                <div id = "signs">
+            <div id = "first_row">
+                <form method="post">
+                    <input type = "submit" value="Необходимое условие" name="way">
+                </form>
+                 <form method="post">
+                     <input type = "submit" value="Радикальный признак Коши" name="way">
+                 </form>
+            </div>
+            <div id = "second_row">
+                 <form method="post">
+                    <input type = "submit" value="Признак Даламбера" name = "way">
+                 </form>
+                 <form method="post">
+                    <input type = "submit" value="Признак Раабе" name = "way">
+                 </form>
+                 <form method="post">
+                    <input type = "submit" value="Признак Бертрана" name = "way">
+                 </form>
+                <form method="post">
+                    <input type = "submit" value="Интегральный признак" name="way">
+                </form>
+                <form method="post">
+                    <input type = "submit" value="Радикальный признак Коши" name="way">
+                </form>
+            </div>
+        </div>
+        <p>{{res}}</p>
+        <p>{{intermediate_result}}</p>
+            <p id='res1'></p>
+    </body>
+    <script>
+        function res_generator(way){
+            let promise = fetch('/solve',{
+            'method': 'POST',
+            'body': way
+            }).then(response => {document.getElementById('res1').innerText = response.json();});
+        }
+    </script>
+</html>
