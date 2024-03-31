@@ -12,45 +12,38 @@
 
     </head>
     <body>
-        <h2>Признаки<br></h2>
-        <p>\[{{getted_series}}\]</p>
+        <header>
+        <h1>Проверяем: \({{getted_series}}\)<br></h1>
+        </header>
+        <div id = "interactiv">
                 <div id = "signs">
-            <div id = "first_row">
-                <form method="post">
-                    <input type = "submit" value="Необходимое условие" name="way">
-                </form>
-                 <form method="post">
-                     <input type = "submit" value="Радикальный признак Коши" name="way">
-                 </form>
-            </div>
-            <div id = "second_row">
-                 <form method="post">
-                    <input type = "submit" value="Признак Даламбера" name = "way">
-                 </form>
-                 <form method="post">
-                    <input type = "submit" value="Признак Раабе" name = "way">
-                 </form>
-                 <form method="post">
-                    <input type = "submit" value="Признак Бертрана" name = "way">
-                 </form>
-                <form method="post">
-                    <input type = "submit" value="Интегральный признак" name="way">
-                </form>
-                <form method="post">
-                    <input type = "submit" value="Радикальный признак Коши" name="way">
-                </form>
-            </div>
+                    <button onclick="res_generator(1)">Необходимое условие</button>
+                    <button onclick="res_generator(2)">Радикальный признак Коши</button>
+                    <button onclick="res_generator(3)">Признак Даламбера</button>
+                    <button onclick="res_generator(4)">Признак Раабе</button>
+                    <button onclick="res_generator(5)">Признак Бертрана</button>
+                    <button onclick="res_generator(6)">Интегральный признак</button>
+                    <button onclick="res_generator(7)">Радикальный признак Коши</button>
+                 </div>
+                <div id = "results">
+                    <p id = "answer"></p>
+                    <p id = "intermediate_result"></p>
+                </div>
         </div>
-        <p>{{res}}</p>
-        <p>{{intermediate_result}}</p>
-            <p id='res1'></p>
+
     </body>
     <script>
-        function res_generator(way){
-            let promise = fetch('/solve',{
+        async function res_generator(way){
+            let promise = await fetch('/solve',{
             'method': 'POST',
             'body': way
-            }).then(response => {document.getElementById('res1').innerText = response.json();});
+            });
+            let result = await promise.json();
+            console.log(result["answer"])
+            console.log(result["intermediate_result"])
+            answer.textContent = result["answer"]
+            intermediate_result.textContent = result["intermediate_result"]
+            MathJax.typeset()
         }
     </script>
 </html>

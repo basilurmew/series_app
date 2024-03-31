@@ -11,23 +11,44 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Введите ряд</h1>
+    <header>
+
+        <h1>Введите общий член ряда</h1>
+    </header>
     <div id = "columns">
         <div id = clava>
-            <button id="over" onclick = add_a_over_b()>\[{a}\over{b}\]</button>
-	    	<button id="sqrt" onclick=add_a_sqrt() >\[\sqrt{a}\]</button>
-            <button id="sqrt_n" onclick=add_a_n_sqrt() >\[\sqrt[n]{a}\]</button>
-	    	<button id="power" onclick=add_a_power()>\[a^{n}\]</button>
+            <div id = "row_1">
+                <button id="sin" onclick = "global_row = insert(global_row, 'sin(▯)');update_global_row();">sin()</button>
+                <button id="cos" onclick="global_row = insert(global_row, 'cos(▯)');update_global_row();" >cos()</button>
+                <button id="tg" onclick="global_row = insert(global_row, 'tg(▯)');update_global_row();" >tg()</button>
+            </div>
+            <div id = "row_2">
+                <button id="over" onclick = add_a_over_b()>\[{a}\over{b}\]</button>
+                <button id="sqrt" onclick=add_a_sqrt() >\[\sqrt{a}\]</button>
+                <button id="sqrt_n" onclick=add_a_n_sqrt() >\[\sqrt[n]{a}\]</button>
+            </div>
+            <div id = "row_3">
+                <button id="ln" onclick = "global_row = insert(global_row, 'ln(▯)');update_global_row();">ln(▯)</button>
+               <button id="power" onclick=add_a_power()>\[a^{n}\]</button>
+                <button id="!" onclick="global_row =insert(global_row, '!▯');update_global_row();">!</button>
+            </div>
+            <div id="row_4">
+                <button id="sh" onclick = "global_row =insert(global_row, 'sh(▯)');update_global_row();">sh()</button>
+                <button id="ch" onclick="global_row =insert(global_row, 'ch▯)');update_global_row();">ch()</button>
+                <button id="th" onclick="global_row =insert(global_row, 'th(▯)');update_global_row();">th()</button>
+            </div>
         </div>
+
         <form method = "post" >
-            <p id = "row">1</p>
+            <p id = "row">▯</p>
 
             <input type="hidden" value="" id = "row_serv" name = "row_serv">
-            <input type = "submit" value="meow">
+            <input id = "sent" type = "submit" value="Готово">
             <p>{{res}}</p>
         </form>
+
         <div id = "instructions">
-            <p>Привет, так как мой разраб немного расстроился из-за 5 по ммзи, то вместо курсора здесь ☭.
+            <p>Привет, так как мой разраб немного расстроился из-за 5 по ммзи, то вместо курсора здесь ▯.
                 <br> Для перемещения по строке используй стрелки <- и ->.
                 <br> Для ввода мат-выражений используй следующие комбинации клавиш:<br>
                 <br> ctrl + 6 =>  \(a^n\) <br>

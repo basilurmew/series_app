@@ -1,7 +1,19 @@
-body{
+ body{
+      display:flex;
+      flex-direction: column;
+      height:100vh;
 
 }
+header{
+display:flex;
+background-color:black;
+width:100%;
+justify-content:center;
+}
 
+h1{
+color:white;
+}
 
 #row{
 height: 50%;
@@ -14,8 +26,9 @@ margin:0px;
 }
 
 #columns{
+margin:5%;
 display:flex;
-flex-direction: row;
+flex-direction: row-reverse;
 flex-wrap: nowrap;
 justify-content:space-around;
 
@@ -26,6 +39,22 @@ display: flex;
 flex-direction: column;
 justify-content:space-evenly;
 width:30%;
+border: solid ;
+}
+
+button{
+height:80%;
+width:25%;
+margin:3%;
+background-color:white;
+}
+#sent{
+background-color:white;
+width:40%;
+height:15%;
+}
+#clava > div{
+height:25%;
 }
 
 form{

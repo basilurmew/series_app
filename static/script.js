@@ -103,7 +103,7 @@
 	 //------------------------------------------------------------------------------------------------------
 
 
-	 function insert(str, new_sub, pos){
+	 function insert(str, new_sub, pos = global_row.indexOf("▯")){
 	 	// заменяет символ строки str на позиции pos на подстроку new_sub
 	 	first_part = str.slice(0, pos) 
 	 	second_part = str.slice(pos+1)
