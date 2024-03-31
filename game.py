@@ -4,15 +4,15 @@ from parser import str_to_tex
 
 
 def solve_series_by_sign(ser: Series, sign: str):
-    if sign == "Необходимое условие":
+    if sign == "1":
         return nth_test(ser)
-    elif sign == "Радикальный признак Коши":
+    elif sign == "2":
         return is_cauchy_test(ser)
-    elif sign == "Признак Даламбера":
+    elif sign == "3":
         return is_dalamber_test(ser)
-    elif sign == "Признак Раабе":
+    elif sign == "4":
         return is_raabe_test(ser)
-    elif sign == "Признак Бертрана":
+    elif sign == "5":
         return is_bertran_test(ser)
     # elif sign == ""
 

@@ -8,9 +8,11 @@ from game import *
 
 app = Flask(__name__)
 
-
-
 @app.route('/', methods=['POST', 'GET'])
+def welcome():
+    if request.method == "GET":
+        return render_template("welcome.html")
+@app.route('/solver', methods=['POST', 'GET'])
 def index():
     if request.method == "POST":
         global getted_row
@@ -32,13 +34,22 @@ def index():
 
 @app.route('/main/game', methods=['POST', 'GET'])
 def game():
-    if request.method == "POST":
-        way = request.form.get('way') # считываем, какую кнопку нажал пользователь
-        pr_res = solve_series_by_sign(ser, way) # считаем, выбранный признак, для нашего ряда
-        res = pr_res.get_res()# В зависимости от того, что дал нам признак - гененрируем строку ответа
-        return render_template("game_of_series.html", getted_series = getted_row.replace("▯", ""), res = res, intermediate_result = intermediate_result(pr_res.get_steps(), ser))
-    else:
+    if request.method == "GET":
         return render_template("game_of_series.html", getted_series = getted_row.replace("▯", ""))
+
+@app.route('/solve', methods=['POST', 'GET'])
+def solving():
+    way =request.data.decode('UTF-8')
+    pr_res = solve_series_by_sign(ser, way)
+    json_element = {}
+    json_element["passed"] = pr_res.get_ans()
+    json_element["intermediate_result"] = intermediate_result(pr_res.get_steps(),ser)
+    json_element["answer"] = pr_res.get_res()
+    return json.dumps(json_element)
+
+
+
+
 
 
 if __name__ == "__main__":

@@ -1,8 +1,48 @@
-#sign{
+
+body{
 display:flex;
+flex-direction: column;
+height:100vh;
 }
 
-input{
+
+
+header{
 display:flex;
+background-color:black;
+justify-content:center;
+width:100%;
+height:20%;
+}
+
+h1{
+color:white;
+}
+
+#signs{
+display:flex;
+flex-direction:column;
+height: 100%;
 width:30%;
+}
+
+button{
+display:flex;
+width:100%;
+height:12%
+}
+
+#interactiv{
+margin:3%;
+height: 70%;
+display:flex;
+width:100%
+flex-direction:row;
+}
+
+#results{
+display: flex;
+flex-direction:column;
+width:60%;
+align-items:center;
 }
