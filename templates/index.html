@@ -12,8 +12,9 @@
 </head>
 <body>
     <header>
+        <button onclick="theory" id = "theory">Теория</button>
+        <h2>Введите общий член ряда</h2>
 
-        <h1>Введите общий член ряда</h1>
     </header>
     <div id = "columns">
         <div id = clava>
@@ -38,15 +39,18 @@
                 <button id="th" onclick="global_row =insert(global_row, 'th(▯)');update_global_row();">th()</button>
             </div>
         </div>
-
-        <form method = "post" >
+        <div id = "center_col">
+        <form id = "sent" method = "post" >
             <p id = "row">▯</p>
-
             <input type="hidden" value="" id = "row_serv" name = "row_serv">
-            <input id = "sent" type = "submit" value="Готово">
-            <p>{{res}}</p>
         </form>
+            <p id = "mistake">{{mistake}}</p>
+            <div id = "form_buttons">
+                <button id = "form_sent" form = "sent"type = "submit" >Готово</button>
+                <button id = "clear_all" onclick="clear_all()" >⭯</button>
+            </div>
 
+        </div>
         <div id = "instructions">
             <p>Привет, так как мой разраб немного расстроился из-за 5 по ммзи, то вместо курсора здесь ▯.
                 <br> Для перемещения по строке используй стрелки <- и ->.

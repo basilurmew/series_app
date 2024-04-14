@@ -3,27 +3,22 @@ def find_open_bracket(string:str, ind:int):
        являющейся открывающей для скобки на позиции ind"""
     if string[ind] == ")":
         o_br = "("
-        cl_br = "]"
+        cl_br = ")"
     elif string[ind] == "]":
         o_br = "["
         cl_br = "]"
+    elif string[ind] == "}":
+        o_br = "{"
+        cl_br = "}"
     stack = [string[ind]]
     counter = ind - 1
     while len(stack) !=0:
         if string[counter] == o_br:
             stack.pop()
-        elif string[counter] == o_br:
+        elif string[counter] == cl_br:
             stack.append(cl_br)
         counter -= 1
     return counter + 1
-
-def replace_by_index(string:str, sub:str, ind:int):
-    """принимает строку string, подстроку sub и индекс ind
-       заменяет символ, находящийся на позиции ind в строке string на sub"""
-    string = string[0:ind] + sub + string[ind+1:]
-    return string
-
-
 
 
 def find_close_bracket(string:str, ind:int):
@@ -35,6 +30,9 @@ def find_close_bracket(string:str, ind:int):
     elif string[ind] == "[":
         o_br = "["
         cl_br = "]"
+    elif string[ind] == "{":
+        o_br = "{"
+        cl_br = "}"
     stack = [string[ind]]
     counter = ind + 1
     while len(stack) !=0:
@@ -46,20 +44,111 @@ def find_close_bracket(string:str, ind:int):
     return counter - 1
 
 
+def replace_by_index(string:str, sub:str, ind:int):
+    """принимает строку string, подстроку sub и индекс ind
+       заменяет символ, находящийся на позиции ind в строке string на sub"""
+    string = string[0:ind] + sub + string[ind+1:]
+    return string
+
+
+def add_brackets(s):
+    """
+    Функция, которая добавляет все необходимые скобки в строке
+    Args:
+        s (str): изначальная строка
+    Returns:
+        str: изменненная строка
+    """
+    numbers = "1234567890"
+    alphabet="abcdefghijklmnopqrstuvwxyz"
+    s = " " + s.replace(" ", "") + " "
+    new_s = ""
+    for i in range(1, len(s) - 1):
+        if s[i] in numbers + alphabet + "()" and  s[i - 1] not in numbers + alphabet + "()":
+            new_s += "("
+        new_s += s[i]
+        if s[i] in numbers + alphabet + "()" and  s[i + 1] not in numbers + alphabet + "()":
+            new_s += ")"
+    return new_s
+
+
+def remove_brackets(string:str):
+    """Убирает у строки string ненужные скобки"""
+    string = " " + string + " "
+    i=0
+    first_priorety = "*/^!"
+    secondary_priorety = "+-"
+    alphabet="abcdefghijklmnopqrstuvwxyz"
+    functions = "sintgcosln"
+    while i<len(string):
+        if string[i]=="(" and string[i-1] not in alphabet:
+            cl_br = find_close_bracket(string, i)
+            if cl_br == i+2:
+                string = replace_by_index(string, "", cl_br)
+                string = replace_by_index(string, "", i)
+                i-=1
+            else:
+                if string[i-1] not in first_priorety and string[cl_br+1] not in first_priorety:
+                    string = replace_by_index(string, "", cl_br)
+                    string = replace_by_index(string, "", i)
+                    i-=1
+                    
+        i+=1
+    return string
+
+
+
+def insert_by_index(string:str, sub_str:str, ind:int):
+    """
+    Вставляет строку sub_str в строку str на позицию ind
+    """
+    if ind >= len(string)-1:
+        return string+sub_str
+    elif ind>=len(string):
+        return string
+    elif ind <=0:
+        return sub_str+string
+    else:
+        return string[0:ind] + sub_str + string[ind::]
+
 def str_to_tex(string:str):
+    string = add_brackets(string)
     string = string.replace("**", "^")
-    for i in range(0,len(string)):
+    i = 0
+    string = " " + string + " "
+    while i<len(string):
         if string[i:i+4] == "sqrt":
             if string[i+4] =="(":
                 cls = find_close_bracket(string,i+4)
                 string = replace_by_index(string, "}", cls)
                 string = replace_by_index(string, "{", i+4)
-    string = string.replace("(", "{")
-    string = string.replace(")", "}")
+        elif string[i]=="^":
+            base_open = find_open_bracket(string, i-1)
+            pow_close = find_close_bracket(string, i+1)
+            string = insert_by_index(string, ")", pow_close + 1)
+            string = insert_by_index(string, "(", base_open)
+            i += 1
+        elif string[i] == "/":
+            denom_close = find_close_bracket(string,i+1)
+            denom_open = i+1
+            numer_open = find_open_bracket(string, i-1)
+            numer_close = i-1
+            if string[denom_close+1] == "^":
+                denom_close = find_close_bracket(string, denom_close+2)
+                string = insert_by_index(string, "}}", denom_close+1)
+                string = insert_by_index(string, "{", denom_open)
+            else:
+                string = replace_by_index(string, "{", denom_open)
+                string = replace_by_index(string, "}}", denom_close)
+            string = insert_by_index(string, "}", numer_close+1)
+            string = insert_by_index(string, "{{", numer_open)
+            i+=4
+        i+=1
+
+    string = remove_brackets(string)
     string = string.replace("sqrt", "\sqrt")
     string = string.replace("/", "\over ")
     return "{" + string + "}"
-
 def tex_to_sempy(expr:str):
     # принимает строку в формате латеха, возвращает то, что ест sympy
     res = expr
