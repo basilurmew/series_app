@@ -25,7 +25,7 @@ def index():
 
         if(check_res[0]):
             ser = series.Series(sp.sympify(member_n), check_res[1])
-            #add_to_db(ser.get_str_expr())
+            add_to_db(ser)
             return redirect('/main/game')
         else:
             return render_template("index.html", mistake = check_res[1])
