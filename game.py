@@ -21,6 +21,8 @@ def solve_series_by_sign(ser: Series, sign: str):
 
 def intermediate_result(expr:list, ser:Series):
     res = expr[0]
+    if len(expr) ==1:
+        return res
     for i in range(1, len(expr ) - 1):
         res += "=    \\lim\\limits_{" + ser.get_str_var() + "\\to\\infty}" + "\\Big({" + str_to_tex(expr[i])+"}\\Big) "
     return res + "=" + expr[-1] + "\\]"
