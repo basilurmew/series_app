@@ -1,3 +1,5 @@
+import sympy as sp
+
 def find_open_bracket(string:str, ind:int):
     """Возвращает индекс скобки в строке string,
        являющейся открывающей для скобки на позиции ind"""
@@ -112,43 +114,11 @@ def insert_by_index(string:str, sub_str:str, ind:int):
         return string[0:ind] + sub_str + string[ind::]
 
 def str_to_tex(string:str):
-    string = add_brackets(string)
-    string = string.replace("**", "^")
-    i = 0
-    string = " " + string + " "
-    while i<len(string):
-        if string[i:i+4] == "sqrt":
-            if string[i+4] =="(":
-                cls = find_close_bracket(string,i+4)
-                string = replace_by_index(string, "}", cls)
-                string = replace_by_index(string, "{", i+4)
-        elif string[i]=="^":
-            base_open = find_open_bracket(string, i-1)
-            pow_close = find_close_bracket(string, i+1)
-            string = insert_by_index(string, ")", pow_close + 1)
-            string = insert_by_index(string, "(", base_open)
-            i += 1
-        elif string[i] == "/":
-            denom_close = find_close_bracket(string,i+1)
-            denom_open = i+1
-            numer_open = find_open_bracket(string, i-1)
-            numer_close = i-1
-            if string[denom_close+1] == "^":
-                denom_close = find_close_bracket(string, denom_close+2)
-                string = insert_by_index(string, "}}", denom_close+1)
-                string = insert_by_index(string, "{", denom_open)
-            else:
-                string = replace_by_index(string, "{", denom_open)
-                string = replace_by_index(string, "}}", denom_close)
-            string = insert_by_index(string, "}", numer_close+1)
-            string = insert_by_index(string, "{{", numer_open)
-            i+=4
-        i+=1
+    expr = sp.sympify(string)
+    latex_str = sp.latex(expr)
+    return latex_str
 
-    string = remove_brackets(string)
-    string = string.replace("sqrt", "\sqrt")
-    string = string.replace("/", "\over ")
-    return "{" + string + "}"
+
 def tex_to_sempy(expr:str):
     # принимает строку в формате латеха, возвращает то, что ест sympy
     res = expr

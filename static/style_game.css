@@ -38,31 +38,118 @@ flex-direction:column;
 height: 100%;
 width:30%;
 }
+
+
 header > button{
-background-color:white;
-color: black;
-border:solid;
+
 width:25%;
 height:50%;
 }
 
-#interactiv > button{
-display:flex;
-width:100%;
-height:12%
+button{
+background-color:white;
+color: black;
+border:solid;
+border-radius:8px;
 }
 
-#interactiv{
+#interactive>button{
+display:flex;
+width:20%;
+height:12%;
+}
+
+#interactive{
+display:flex;
+flex-direction:column;
 margin:3%;
 height: 70%;
-display:flex;
-width:100%
-flex-direction:row;
+width:100%;
+align-items:center;
 }
 
-#results{
+
+
+p{
+display:flex;
+justify-content:center;
+}
+
+
+#interactive>div{
+display: flex;
+flex-direction:row;
+justify-content:center;
+}
+#buttons{
+
+display:flex;
+flex-direction:row;
+align-items:center;
+justify-content:space-around;
+width:70%;
+height:30%;
+}
+
+
+#tf{
+display:flex;
+flex-direction:row;
+align-items:center;
+justify-content:space-around;
+width:80%;
+height:25%;
+}
+
+#tf > button{
+width:30%;
+height:50px;
+}
+
+#tf_nw{
+display:flex;
+flex-direction:row;
+align-items:center;
+justify-content:space-around;
+width:80%;
+height:25%;
+}
+
+
+#tf_nw > button{
+width:20%;
+height:50px;
+}
+
+#signs{
+display:flex;
+flex-direction:column;
+justify-content:space-around;
+align-items:center;
+width:70%;
+}
+#signs > div{
+display:flex;
+flex-direction:row;
+justify-content:space-between;
+height:100%;
+}
+#signs > div > button{
+width:30%;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+#interactive >  #results{
 display: flex;
 flex-direction:column;
 width:60%;
+align-items:center;
+}
+
+#go{
+display:flex;
+justify-content:center;
 align-items:center;
 }
