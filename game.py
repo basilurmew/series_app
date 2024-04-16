@@ -15,7 +15,8 @@ def solve_series_by_sign(ser: Series, sign: str):
         return is_raabe_test(ser)
     elif sign == "5":
         return is_bertran_test(ser)
-    # elif sign == ""
+    elif sign == "6":
+        return is_integral_test(ser)
 
 
 def intermediate_result(expr:list, ser:Series):
