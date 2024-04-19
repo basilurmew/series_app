@@ -14,38 +14,120 @@
     <body>
         <header>
             <button onclick="theory" id = "theory">Теория</button>
-             <h2>\(\sum\limits_{n=1}^{\infty}{{getted_series}}\)<br></h2>
+             <h2>\(\sum\limits_{ {{ variable }} =1}^{\infty}{{getted_series}}\)<br></h2>
             <button id = "main_page" onclick="location.replace('/main')">На главный экран</button>
         </header>
-        <div id = "interactiv">
+        <div id = "interactive">
+                <p id = "question"></p>
+            <div id = "buttons">
+                <div id = "tf">
+                    <button onclick="try_to_ask_sign_3(0)">Да</button>
+                    <button onclick="try_to_ask_sign_3(-1)">Нет</button>
+                </div>
+                <div id = "tf_nw">
+                    <button onclick="try_to_ask_sign_3(1)">Да</button>
+                    <button onclick="try_to_ask_sign_3(0)">Не в этот раз</button>
+                    <button onclick="try_to_ask_sign_3(-1)">Нет</button>
+                </div>
                 <div id = "signs">
-                    <button onclick="res_generator(1)">Необходимое условие</button>
-                    <button onclick="res_generator(2)">Радикальный признак Коши</button>
-                    <button onclick="res_generator(3)">Признак Даламбера</button>
-                    <button onclick="res_generator(4)">Признак Раабе</button>
-                    <button onclick="res_generator(5)">Признак Бертрана</button>
-                    <button onclick="res_generator(6)">Интегральный признак</button>
-                    <button onclick="res_generator(7)">Радикальный признак Коши</button>
+                    <div id = "first_row">
+                        <button onclick="try_to_ask_sign('cauchy')">Радикальный признак Коши</button>
+                        <button onclick="try_to_ask_sign('dalamber')">Признак Даламбера</button>
+                        <button onclick="try_to_ask_sign('raabe')">Признак Раабе</button>
+                    </div>
+                    <div id = "second_row">
+                        <button onclick="try_to_ask_sign('bertran')">Признак Бертрана</button>
+                        <button onclick="try_to_ask_sign('integral')">Интегральный признак</button>
+                       <button onclick="try_to_ask_sign('gauss')">Признак Гаусса</button>
+                    </div>
                  </div>
+                </div>
                 <div id = "results">
                     <p id = "answer"></p>
                     <p id = "intermediate_result"></p>
                 </div>
+            <button id = "go" onclick="next_step_gen()">Дальше</button>
         </div>
 
     </body>
     <script>
-        async function res_generator(way){
+
+
+        let current_step;
+        let step = 0;
+        
+        async function next_step_gen(){
             let promise = await fetch('/solve',{
             'method': 'POST',
-            'body': way
+            'body':step
             });
-            let result = await promise.json();
-            console.log(result["answer"])
-            console.log(result["intermediate_result"])
-            answer.textContent = result["answer"]
-            intermediate_result.textContent = result["intermediate_result"]
-            MathJax.typeset()
+            let serv_answer = await promise.json();
+            current_step = {
+                question: serv_answer["question"],
+                true_actor_answer :  serv_answer["true_actor_answer"],
+                false_actor_answer : serv_answer["false_actor_answer"],
+                intermediate_result: serv_answer["intermediate_result"],
+                true_answer: serv_answer["true_answer"],
+                sign:serv_answer["sign"]
+            }
+           hide_and_show(current_step['sign'])
+           document.getElementById("question").textContent = current_step['question']
+           document.getElementById('buttons').style.display = "flex"
+           document.getElementById('question').style.display = "flex"
+           document.getElementById('go').style.display = "none"
+           document.getElementById('intermediate_result').style.display = "none"
+           step+=1
+        }
+
+        next_step_gen()
+
+
+        function try_to_ask_sign_3(ans){
+            if(ans == current_step['true_answer']){
+
+                document.getElementById('intermediate_result').textContent = current_step['intermediate_result']
+                document.getElementById('answer').textContent = current_step['true_actor_answer']
+                document.getElementById('intermediate_result').style.display = "flex"
+                document.getElementById('buttons').style.display = "none"
+                document.getElementById('question').style.display = "none"
+                if (ans != 1 && ans != -1)
+                    document.getElementById('go').style.display = 'flex';
+                MathJax.typeset()
+            }
+            else{
+                document.getElementById('answer').textContent = current_step['false_actor_answer']
+            }
+        }
+        
+       function try_to_ask_sign(sign){
+            if(sign == current_step['sign']){
+                 hide_and_show('probably')
+                 document.getElementById('answer').textContent = "Вы выбрали верный признак";
+                 document.getElementById('question').textContent = "Что покажет выбранный вами признак в этом случае?";
+               }else{
+                document.getElementById('answer').textContent = current_step['false_actor_answer']
+            }
+        }
+
+
+        function hide_and_show(sign){
+            if (sign == 'nth'){
+                document.getElementById('tf_nw').style.display = 'none'
+                document.getElementById('signs').style.display = 'none'
+                document.getElementById('tf').style.display = 'flex'
+            } else
+                if(sign == 'harm' || sign == 'geom' || sign == 'probably'){
+                document.getElementById('tf_nw').style.display = 'flex'
+                document.getElementById('signs').style.display = 'none'
+                document.getElementById('tf').style.display = 'none'
+            }
+
+            else{
+                document.getElementById('tf_nw').style.display = 'none'
+                document.getElementById('signs').style.display = 'flex'
+                document.getElementById('tf').style.display = 'none'
+            }
+
         }
     </script>
 </html>

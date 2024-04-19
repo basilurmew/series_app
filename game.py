@@ -15,11 +15,14 @@ def solve_series_by_sign(ser: Series, sign: str):
         return is_raabe_test(ser)
     elif sign == "5":
         return is_bertran_test(ser)
-    # elif sign == ""
+    elif sign == "6":
+        return is_integral_test(ser)
 
 
 def intermediate_result(expr:list, ser:Series):
     res = expr[0]
+    if len(expr) ==1:
+        return res
     for i in range(1, len(expr ) - 1):
         res += "=    \\lim\\limits_{" + ser.get_str_var() + "\\to\\infty}" + "\\Big({" + str_to_tex(expr[i])+"}\\Big) "
     return res + "=" + expr[-1] + "\\]"
