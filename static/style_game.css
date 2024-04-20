@@ -32,16 +32,9 @@ border : solid;
 height:75%;
 }
 
-#signs{
-display:flex;
-flex-direction:column;
-height: 100%;
-width:30%;
-}
 
 
 header > button{
-
 width:25%;
 height:50%;
 }
@@ -81,14 +74,15 @@ display: flex;
 flex-direction:row;
 justify-content:center;
 }
-#buttons{
 
+
+#buttons{
 display:flex;
 flex-direction:row;
 align-items:center;
 justify-content:space-around;
-width:70%;
-height:30%;
+width:100%;
+height:40%;
 }
 
 
@@ -123,19 +117,26 @@ height:50px;
 
 #signs{
 display:flex;
-flex-direction:column;
+flex-direction:row;
 justify-content:space-around;
 align-items:center;
-width:70%;
+width:80%;
+height:60%;
 }
+
+
 #signs > div{
 display:flex;
-flex-direction:row;
-justify-content:space-between;
+flex-direction:column;
+justify-content:center;
 height:100%;
-}
-#signs > div > button{
 width:30%;
+}
+
+#signs > div > button{
+
+width:100%;
+height:50%;
 display:flex;
 justify-content:center;
 align-items:center;

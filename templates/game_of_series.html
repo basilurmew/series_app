@@ -25,20 +25,22 @@
                     <button onclick="try_to_ask_sign_3(-1)">Нет</button>
                 </div>
                 <div id = "tf_nw">
-                    <button onclick="try_to_ask_sign_3(1)">Да</button>
-                    <button onclick="try_to_ask_sign_3(0)">Не в этот раз</button>
-                    <button onclick="try_to_ask_sign_3(-1)">Нет</button>
+                    <button id = "converg" onclick="try_to_ask_sign_3(1)">Да</button>
+                    <button id = "not_work" onclick="try_to_ask_sign_3(0)">Не в этот раз</button>
+                    <button id ="diverg" onclick="try_to_ask_sign_3(-1)">Нет</button>
                 </div>
                 <div id = "signs">
-                    <div id = "first_row">
-                        <button onclick="try_to_ask_sign('cauchy')">Радикальный признак Коши</button>
-                        <button onclick="try_to_ask_sign('dalamber')">Признак Даламбера</button>
-                        <button onclick="try_to_ask_sign('raabe')">Признак Раабе</button>
+                    <div>
+                        <button id = 'cauchy' onclick="try_to_ask_sign('cauchy')">Радикальный признак Коши</button>
+                        <button id = 'dalamber' onclick="try_to_ask_sign('dalamber')">Признак Даламбера</button>
                     </div>
-                    <div id = "second_row">
-                        <button onclick="try_to_ask_sign('bertran')">Признак Бертрана</button>
-                        <button onclick="try_to_ask_sign('integral')">Интегральный признак</button>
-                       <button onclick="try_to_ask_sign('gauss')">Признак Гаусса</button>
+                    <div>
+                        <button id = 'raabe' onclick="try_to_ask_sign('raabe')">Признак Раабе</button>
+                        <button id = 'bertran' onclick="try_to_ask_sign('bertran')">Признак Бертрана</button>
+                    </div>
+                    <div>
+                        <button id = 'integral' onclick="try_to_ask_sign('integral')">Интегральный признак</button>
+                        <button id ='gauss' onclick="try_to_ask_sign('gauss')">Признак Гаусса</button>
                     </div>
                  </div>
                 </div>
@@ -50,84 +52,6 @@
         </div>
 
     </body>
-    <script>
+    <script src="{{ url_for('static', filename='web_interactive.js') }}"></script>
 
-
-        let current_step;
-        let step = 0;
-        
-        async function next_step_gen(){
-            let promise = await fetch('/solve',{
-            'method': 'POST',
-            'body':step
-            });
-            let serv_answer = await promise.json();
-            current_step = {
-                question: serv_answer["question"],
-                true_actor_answer :  serv_answer["true_actor_answer"],
-                false_actor_answer : serv_answer["false_actor_answer"],
-                intermediate_result: serv_answer["intermediate_result"],
-                true_answer: serv_answer["true_answer"],
-                sign:serv_answer["sign"]
-            }
-           hide_and_show(current_step['sign'])
-           document.getElementById("question").textContent = current_step['question']
-           document.getElementById('buttons').style.display = "flex"
-           document.getElementById('question').style.display = "flex"
-           document.getElementById('go').style.display = "none"
-           document.getElementById('intermediate_result').style.display = "none"
-           step+=1
-        }
-
-        next_step_gen()
-
-
-        function try_to_ask_sign_3(ans){
-            if(ans == current_step['true_answer']){
-
-                document.getElementById('intermediate_result').textContent = current_step['intermediate_result']
-                document.getElementById('answer').textContent = current_step['true_actor_answer']
-                document.getElementById('intermediate_result').style.display = "flex"
-                document.getElementById('buttons').style.display = "none"
-                document.getElementById('question').style.display = "none"
-                if (ans != 1 && ans != -1)
-                    document.getElementById('go').style.display = 'flex';
-                MathJax.typeset()
-            }
-            else{
-                document.getElementById('answer').textContent = current_step['false_actor_answer']
-            }
-        }
-        
-       function try_to_ask_sign(sign){
-            if(sign == current_step['sign']){
-                 hide_and_show('probably')
-                 document.getElementById('answer').textContent = "Вы выбрали верный признак";
-                 document.getElementById('question').textContent = "Что покажет выбранный вами признак в этом случае?";
-               }else{
-                document.getElementById('answer').textContent = current_step['false_actor_answer']
-            }
-        }
-
-
-        function hide_and_show(sign){
-            if (sign == 'nth'){
-                document.getElementById('tf_nw').style.display = 'none'
-                document.getElementById('signs').style.display = 'none'
-                document.getElementById('tf').style.display = 'flex'
-            } else
-                if(sign == 'harm' || sign == 'geom' || sign == 'probably'){
-                document.getElementById('tf_nw').style.display = 'flex'
-                document.getElementById('signs').style.display = 'none'
-                document.getElementById('tf').style.display = 'none'
-            }
-
-            else{
-                document.getElementById('tf_nw').style.display = 'none'
-                document.getElementById('signs').style.display = 'flex'
-                document.getElementById('tf').style.display = 'none'
-            }
-
-        }
-    </script>
 </html>
