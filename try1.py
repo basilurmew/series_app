@@ -38,7 +38,6 @@ def index():
             return redirect('/main/game')
         else:
             return render_template("index.html", mistake = check_res[1])
-
     else:
         return render_template("index.html" )
 
