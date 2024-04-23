@@ -163,9 +163,9 @@ def add_to_db(username, password, s):
     finally:
         db.close()
 
-# Пример использования:
-create_user_table()
-username = "vadisimus228"
-password = "jopa_bobra"
-register_user(username, password)
-add_to_db(username, password, Series(sp.sympify("1/n**8"), "n"))
+# # Пример использования:
+# create_user_table()
+# username = "vadisimus228"
+# password = "jopa_bobra"
+# register_user(username, password)
+# add_to_db(username, password, Series(sp.sympify("1/n**8"), "n"))
