@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect,url_for
 from parser import tex_to_sempy
 import sympy as sp
 import mysql.connector
@@ -26,7 +26,7 @@ def welcome():
             global user, password
             user = login
             password = pas
-            return render_template("index.html")
+            return redirect('/main')
         else:
             return render_template('login.html', mistake = "Неверное имя пользователя или пароль")
 
@@ -42,7 +42,7 @@ def registration():
             global user, password
             user = login
             password = pas
-            return render_template("index.html")
+            return redirect('/main')
         else:
             return render_template("registration.html", mistake = "Пользователь с таким именем уже существует")
 
@@ -50,6 +50,7 @@ def registration():
 @app.route('/main', methods=['POST', 'GET'])
 def index():
     if request.method == "POST":
+
         global getted_row
         global solve_tree
         global ser
@@ -59,21 +60,20 @@ def index():
         check_res = checking.full_check(member_n)
 
         if(check_res[0]):
+
             ser = series.Series(sp.sympify(member_n), check_res[1])
-            solve_tree =  add_to_db(user, password, ser)
+            solve_tree = add_to_db(user, password, ser)
 
             return redirect('/main/game')
         else:
             return render_template("index.html", mistake = check_res[1])
-
     else:
         return render_template("index.html" )
 
 
 @app.route('/main/game', methods=['POST', 'GET'])
 def game():
-    if request.method == "GET":
-        return render_template("game_of_series.html", getted_series = getted_row.replace("▯", ""), variable = ser.get_str_var() )
+    return render_template("game_of_series.html", getted_series = getted_row.replace("▯", ""), variable = ser.get_str_var() )
 
 
 
