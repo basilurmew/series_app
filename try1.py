@@ -17,7 +17,34 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def welcome():
     if request.method == "GET":
-        return render_template("welcome.html")
+        return render_template("login.html")
+    if request.method == "POST":
+        login = request.form.get('login')
+        pas = request.form.get('password')
+
+        if(authenticate_user(login,pas)):
+            global user, password
+            user = login
+            password = pas
+            return render_template("index.html")
+        else:
+            return render_template('login.html', mistake = "Неверное имя пользователя или пароль")
+
+
+@app.route('/registration', methods=['POST', 'GET'])
+def registration():
+    if request.method == "GET":
+        return render_template("registration.html")
+    else:
+        login = request.form.get('login')
+        pas = request.form.get('password')
+        if (register_user(login, pas)):
+            global user, password
+            user = login
+            password = pas
+            return render_template("index.html")
+        else:
+            return render_template("registration.html", mistake = "Пользователь с таким именем уже существует")
 
 
 @app.route('/main', methods=['POST', 'GET'])
@@ -33,8 +60,8 @@ def index():
 
         if(check_res[0]):
             ser = series.Series(sp.sympify(member_n), check_res[1])
-            solve_tree = solution_tree(ser)
-            #add_to_db(ser.get_str_expr())
+            solve_tree =  add_to_db(user, password, ser)
+
             return redirect('/main/game')
         else:
             return render_template("index.html", mistake = check_res[1])
