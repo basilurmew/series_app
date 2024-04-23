@@ -65,13 +65,13 @@ def authenticate_user(username, password):
         mycursor.execute("SELECT username, password FROM users WHERE username = %s AND password = %s", (username, password))
         user = mycursor.fetchone()
         if user:
-            print(f"Пользователь '{username}' успешно аутентифицирован.")
+            #print(f"Пользователь '{username}' успешно аутентифицирован.")
             return True
         else:
-            print("Неверное имя пользователя или пароль.")
+            #print("Неверное имя пользователя или пароль.")
             return False
     except mysql.connector.Error as err:
-        print(f"Ошибка: {err}")
+        return False
     finally:
         db.close()
 
@@ -136,6 +136,7 @@ def add_to_db(username, password, s):
             mycursor.execute("SELECT LAST_INSERT_ID()")
             last_insert_id = mycursor.fetchone()[0]
             print("Выражение успешно добавлено в базу данных. ID новой записи:", last_insert_id)
+            return check
         else:
             print("Ряд уже существует в базе данных. ID:", existing_row[0])
             new_check = {}
@@ -155,7 +156,7 @@ def add_to_db(username, password, s):
                     new_check[column] = ast.literal_eval(value)
 
             print("new_check:", new_check) # АНДРЮХА ВОТ ТУТ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+            return new_check
     except mysql.connector.IntegrityError as e:
         print("Ошибка: Дубликат ряда. Ряд не был добавлен в базу данных.")
         print("Error:", e)
