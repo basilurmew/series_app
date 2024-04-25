@@ -12,9 +12,9 @@
 </head>
 <body>
     <header>
-        <button onclick="theory" id = "theory">Теория</button>
+        <button onclick="location.replace('/theory')" id = "theory">Теория</button>
         <h2>Введите общий член ряда</h2>
-
+        <button class="image-button" onclick="location.replace('/')" id = "user">⚒︎</button>
     </header>
     <div id = "columns">
         <div id = clava>
@@ -35,7 +35,7 @@
             </div>
             <div id="row_4">
                 <button id="sh" onclick = "global_row =insert(global_row, 'sh(▯)');update_global_row();">sh()</button>
-                <button id="ch" onclick="global_row =insert(global_row, 'ch▯)');update_global_row();">ch()</button>
+                <button id="ch" onclick="global_row =insert(global_row, 'ch(▯)');update_global_row();">ch()</button>
                 <button id="th" onclick="global_row =insert(global_row, 'th(▯)');update_global_row();">th()</button>
             </div>
         </div>

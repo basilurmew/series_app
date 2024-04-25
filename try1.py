@@ -17,13 +17,16 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def welcome():
     if request.method == "GET":
+        global user, password
+        user = "free_user"
+        password = "cubikrubik"
         return render_template("login.html")
     if request.method == "POST":
         login = request.form.get('login')
         pas = request.form.get('password')
 
         if(authenticate_user(login,pas)):
-            global user, password
+
             user = login
             password = pas
             return redirect('/main')
@@ -34,12 +37,15 @@ def welcome():
 @app.route('/registration', methods=['POST', 'GET'])
 def registration():
     if request.method == "GET":
+        global user, password
+        user = "free_user"
+        password = "cubikrubik"
         return render_template("registration.html")
     else:
         login = request.form.get('login')
         pas = request.form.get('password')
         if (register_user(login, pas)):
-            global user, password
+
             user = login
             password = pas
             return redirect('/main')
@@ -85,6 +91,9 @@ def solving():
     json_element = next_dict(keys_list[step], solve_tree)
     return json.dumps(json_element)
 
+@app.route('/theory', methods=['POST', 'GET'])
+def theory_page():
+    return render_template('theory.html')
 
 
 if __name__ == "__main__":
