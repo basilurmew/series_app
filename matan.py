@@ -2,7 +2,7 @@ import mysql.connector
 import ast
 import sympy as sp
 from tree_solution import *
-
+from passlib.hash import sha256_crypt
 def create_user_table():
     db = mysql.connector.connect(
         host="127.0.0.1",
@@ -32,6 +32,8 @@ def register_user(username, password):
     )
     mycursor = db.cursor()
 
+    hashed_password = sha256_crypt.hash(password)
+
     try:
         # Проверяем, существует ли пользователь с таким именем
         mycursor.execute("SELECT username FROM users WHERE username = %s", (username,))
@@ -41,7 +43,7 @@ def register_user(username, password):
             return False
 
         # Создаем пользователя
-        mycursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+        mycursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashed_password))
         db.commit()
         print(f"Пользователь '{username}' успешно создан.")
         return True
@@ -62,23 +64,24 @@ def authenticate_user(username, password):
     mycursor = db.cursor()
 
     try:
-        mycursor.execute("SELECT username, password FROM users WHERE username = %s AND password = %s", (username, password))
+        mycursor.execute("SELECT username, password FROM users WHERE username = %s", (username,))
         user = mycursor.fetchone()
-        if user:
-            #print(f"Пользователь '{username}' успешно аутентифицирован.")
+        if user and sha256_crypt.verify(password, user[1]): # Проверяем хешированный пароль из базы данных
+            print(f"Пользователь '{username}' успешно аутентифицирован.")
             return True
         else:
-            #print("Неверное имя пользователя или пароль.")
+            print("Неверное имя пользователя или пароль.")
             return False
     except mysql.connector.Error as err:
+        print(f"Ошибка: {err}")
         return False
     finally:
         db.close()
 
+
 def add_to_db(username, password, s):
     if not authenticate_user(username, password):
         return
-
     db = mysql.connector.connect(
         host="127.0.0.1",
         user="root",
@@ -90,6 +93,7 @@ def add_to_db(username, password, s):
     mycursor = db.cursor()
 
     try:
+
         expr_str = s.get_str_expr()
 
         table_name = f"{username}"
@@ -163,9 +167,9 @@ def add_to_db(username, password, s):
     finally:
         db.close()
 
-# # Пример использования:
-# create_user_table()
-# username = "vadisimus228"
-# password = "jopa_bobra"
-# register_user(username, password)
-# add_to_db(username, password, Series(sp.sympify("1/n**8"), "n"))
+#Пример использования:
+create_user_table()
+username = "kush"
+password = "avtomat_po_kripte"
+register_user(username,password)
+add_to_db(username, password, Series(sp.sympify("1/n**4"), "n"))
