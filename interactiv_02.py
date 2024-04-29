@@ -1,6 +1,3 @@
-from tree_solution import solution_tree
-from series import Series
-import sympy as sp
 from parser import str_to_tex
 
 

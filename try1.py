@@ -32,7 +32,7 @@ def index():
         check_res = checking.full_check(member_n)
 
         if(check_res[0]):
-            ser = series.Series(sp.sympify(member_n), check_res[1])
+            ser = series.Series(sp.sympify(checking.find_factorial2(member_n, check_res[1])), check_res[1])
             solve_tree = solution_tree(ser)
             #add_to_db(ser.get_str_expr())
             return redirect('/main/game')

@@ -136,5 +136,4 @@ def tex_to_sempy(expr:str):
             fond = res[degree_end+2 : fond_end]
             res = res[0:i-4] + fond + "**(1/" + degree + ")" + res[fond_end+1:]
             break
-    return res
-
+    return str(sp.sympify(res))
