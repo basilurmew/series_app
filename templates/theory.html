@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style_theory.css') }}">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <title>Document</title>
+
+    </head>
+    <body>
+        <header>
+            <button id = "main_page" onclick="location.replace('/main')">На главный экран</button>
+
+
+            <button class="image-button" onclick="location.replace('/')" id = "user">⚒︎</button>
+        </header>
+
+    <div id = "signs">
+        <div>
+        <h3 onclick="hide_and_show('nth')">Необходимое условие</h3>
+        <button onclick="hide_and_show('nth')">ᐯ</button>
+        </div>
+        <p id = "nth">
+            {{nth}}
+        </p>
+
+        <hr size="2" color="black" width="100%">
+         <div>
+        <h3 >Обобщенный гармонический ряд</h3>
+        <button onclick="hide_and_show('harm')">ᐯ</button>
+        </div>
+        <p id = "harm">
+           {{harm}}
+        </p>
+        <hr size="2" color="black" width="100%">
+         <div>
+        <h3 onclick="hide_and_show('geom')">Геометрический ряд ряд</h3>
+        <button onclick="hide_and_show('geom')">ᐯ</button>
+        </div>
+        <p id = "geom">
+            {{geom}}
+        </p>
+        <hr size="2" color="black" width="100%">
+         <div>
+        <h3 onclick="hide_and_show('coshi')" >Радикальный признак  Коши</h3>
+        <button onclick="hide_and_show('coshi')">ᐯ</button>
+        </div>
+        <p id = "coshi">
+           {{coshi}}
+        </p>
+        <hr size="2" color="black" width="100%">
+         <div>
+        <h3 onclick="hide_and_show('dalamber')">Признак  Даламбера</h3>
+        <button onclick="hide_and_show('dalamber')">ᐯ</button>
+        </div>
+        <p id = "dalamber">
+           {{dalamber}}
+        </p>
+        <hr size="2" color="black" width="100%">
+         <div>
+        <h3 onclick="hide_and_show('cummer')">Признак  Куммера</h3>
+        <button onclick="hide_and_show('cummer')">ᐯ</button>
+        </div>
+        <p id = "cummer">
+           {{cummer}}
+        </p>
+        <hr size="2" color="black" width="100%">
+         <div>
+        <h3 onclick="hide_and_show('raabe')">Признак  Раабе</h3>
+        <button onclick="hide_and_show('raabe')">ᐯ</button>
+        </div>
+        <p id = "raabe">
+           {{raabe}}
+        </p>
+        <hr size="2" color="black" width="100%">
+         <div>
+        <h3 onclick="hide_and_show('bertran')">Признак  Бертрана</h3>
+        <button onclick="hide_and_show('bertran')">ᐯ</button>
+        </div>
+        <p id = "bertran">
+            {{bertran}}
+        </p>
+        <hr size="2" color="black" width="100%">
+         <div>
+        <h3 onclick="hide_and_show('integral')">Интегральный признак Коши</h3>
+        <button onclick="hide_and_show('integral')">ᐯ</button>
+        </div>
+        <p id = "integral">
+           {{integral}}
+        </p>
+        <hr size="2" color="black" width="100%">
+         <div>
+        <h3 onclick="hide_and_show('gauss')">Признак  Гаусса</h3>
+        <button onclick="hide_and_show('gauss')">ᐯ</button>
+        </div>
+        <p id = "gauss">
+            {{gauss}}
+        </p>
+        <hr size="2" color="black" width="100%">
+         <div>
+        <h3 onclick="hide_and_show('leibnic')">Признак  Лейбница</h3>
+        <button onclick="hide_and_show('leibnic')">ᐯ</button>
+        </div>
+        <p id = "leibnic">
+           {{leibnic}}
+        </p>
+        <hr size="2" color="black" width="100%">
+         <div>
+        <h3 onclick="hide_and_show('dirihle')">Признак Дирихле</h3>
+        <button onclick="hide_and_show('dirihle')">ᐯ</button>
+         </div>
+        <p id = "dirihle">
+           {{dirihle}}
+        </p>
+        <hr size="2" color="black" width="100%">
+         <div>
+        <h3 onclick="hide_and_show('abel')">Признак Абеля</h3>
+        <button onclick="hide_and_show('abel')">ᐯ</button>
+         </div>
+        <p id = "abel">
+           {{abel}}
+        </p>
+        <hr size="2" color="black" width="100%">
+    </div>
+
+</body>
+<script>
+
+    function hide_and_show(elem_to_change){
+        var obj1 = document.getElementById(elem_to_change);
+        if (obj1.style.display == 'none') {
+        document.getElementById(elem_to_change).style.display = "block";
+        }
+        else{
+        document.getElementById(elem_to_change).style.display = "none";
+        }
+    }
+
+</script>
+</html>

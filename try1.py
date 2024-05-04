@@ -17,13 +17,16 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def welcome():
     if request.method == "GET":
+        global user, password
+        user = " "
+        password = "cubikrubik"
         return render_template("login.html")
     if request.method == "POST":
         login = request.form.get('login')
         pas = request.form.get('password')
 
         if(authenticate_user(login,pas)):
-            global user, password
+
             user = login
             password = pas
             return redirect('/main')
@@ -34,12 +37,15 @@ def welcome():
 @app.route('/registration', methods=['POST', 'GET'])
 def registration():
     if request.method == "GET":
+        global user, password
+        user = "free_user"
+        password = "cubikrubik"
         return render_template("registration.html")
     else:
         login = request.form.get('login')
         pas = request.form.get('password')
         if (register_user(login, pas)):
-            global user, password
+
             user = login
             password = pas
             return redirect('/main')
@@ -68,7 +74,7 @@ def index():
         else:
             return render_template("index.html", mistake = check_res[1])
     else:
-        return render_template("index.html" )
+        return render_template("index.html", login = user)
 
 
 @app.route('/main/game', methods=['POST', 'GET'])
@@ -84,6 +90,31 @@ def solving():
     keys_list = list(solve_tree.keys())
     json_element = next_dict(keys_list[step], solve_tree)
     return json.dumps(json_element)
+
+@app.route('/theory', methods=['POST', 'GET'])
+def theory_page():
+    """ВАААААААААААДИИИИИИИИИМ
+    короче вот тут надо бахнуть функцию, которая в переменные(переменные создай сам) nth_db, harm_db, geom_bd,..., abel_bd --занесет соответственные данные из бд
+    текст для каждого признака находится в текстовике theory.txt. Как признаки в текстовике разграничены думаю разберешься. В текст помести единой строкой
+    """
+
+    return render_template('theory.html',
+                        nth = nth_db,
+                        harm = harm_db,
+                        geom = geom_bd,
+                        coshi = coshi_bd,
+                        dalamber = dalamber_bd,
+                        cummer = cummer_bd,
+                        raabe = raabe_bd,
+                        bertran =bertran_bd,
+                        integral =integral_bd,
+                        gauss =gauss_bd,
+                        leibnic =leibnic_bd,
+                        dirihle = dirihle_bd,
+                        abel = abel_bd
+                        )
+
+
 
 
 
