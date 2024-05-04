@@ -98,21 +98,7 @@ def theory_page():
     текст для каждого признака находится в текстовике theory.txt. Как признаки в текстовике разграничены думаю разберешься. В текст помести единой строкой
     """
 
-    return render_template('theory.html',
-                        nth = nth_db,
-                        harm = harm_db,
-                        geom = geom_bd,
-                        coshi = coshi_bd,
-                        dalamber = dalamber_bd,
-                        cummer = cummer_bd,
-                        raabe = raabe_bd,
-                        bertran =bertran_bd,
-                        integral =integral_bd,
-                        gauss =gauss_bd,
-                        leibnic =leibnic_bd,
-                        dirihle = dirihle_bd,
-                        abel = abel_bd
-                        )
+    return render_template('theory.html')
 
 
 
