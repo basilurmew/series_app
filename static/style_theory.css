@@ -51,17 +51,21 @@ button{
 background-color:white;
 color: black;
 border:solid;
+font-weight: bold;
+border-width:2px;
 border-radius:8px;
 }
 
 
 p{
 display:none;
+
 }
 
 #signs > div{
 display:flex;
-flex-direction:row;
+flex-direction:row-reverse;
+justify-content:flex-end;
 align-items:center;
 }
 
