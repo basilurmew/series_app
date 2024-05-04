@@ -7,7 +7,7 @@ def create_user_table():
     db = mysql.connector.connect(
         host="127.0.0.1",
         user="root",
-        password="lolkek2004",
+        password="billy_256",
         auth_plugin='mysql_native_password',
         database="series"
     )
@@ -26,7 +26,7 @@ def register_user(username, password):
     db = mysql.connector.connect(
         host="127.0.0.1",
         user="root",
-        password="lolkek2004",
+        password="billy_256",
         auth_plugin='mysql_native_password',
         database="series"
     )
@@ -57,7 +57,7 @@ def authenticate_user(username, password):
     db = mysql.connector.connect(
         host="127.0.0.1",
         user="root",
-        password="lolkek2004",
+        password="billy_256",
         auth_plugin='mysql_native_password',
         database="series"
     )
@@ -85,7 +85,7 @@ def add_to_db(username, password, s):
     db = mysql.connector.connect(
         host="127.0.0.1",
         user="root",
-        password="lolkek2004",
+        password="billy_256",
         auth_plugin='mysql_native_password',
         database="series"
     )
