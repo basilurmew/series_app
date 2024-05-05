@@ -66,11 +66,12 @@ def index():
         check_res = checking.full_check(member_n)
 
         if(check_res[0]):
-
             ser = series.Series(sp.sympify(member_n), check_res[1])
             solve_tree = add_to_db(user, password, ser)
-
-            return redirect('/main/game')
+            if solve_tree[1] == True:
+                return redirect('/main/game')
+            else:
+                return redirect('/main/secondary_game')
         else:
             return render_template("index.html", mistake = check_res[1])
     else:
@@ -79,17 +80,37 @@ def index():
 
 @app.route('/main/game', methods=['POST', 'GET'])
 def game():
-    return render_template("game_of_series.html", getted_series = getted_row.replace("▯", ""), variable = ser.get_str_var() )
+    return render_template("game_of_series.html", getted_series = getted_row.replace("▯", ""), variable = ser.get_str_var())
 
+@app.route('/main/secondary_game', methods=['POST', 'GET'])
+def secondary_game():
+    json_elem = list(solve_tree[0].keys())
+
+    if solve_tree[0][list(solve_tree[0].keys())[len(list(solve_tree[0].keys()))-1]][0] == -1:
+        json_elem.append('diverg')
+    else:
+        json_elem.append('converg')
+    signs = json.dumps(json_elem)
+
+    return render_template("secondary_input.html", getted_series = getted_row.replace("▯", ""), variable = ser.get_str_var(), ans = signs)
+
+@app.route('/solve_secondary', methods=['POST', 'GET'])
+def solv_sec():
+    step = request.data.decode('UTF-8')
+    json_element = {"true_answer" : solve_tree[0][step][0], "intermediate_result" :intermediate_result( solve_tree[0][step][1],ser )}
+    return json.dumps(json_element)
 
 
 
 @app.route('/solve', methods=['POST', 'GET'])
 def solving():
     step = int(request.data.decode('UTF-8'))
-    keys_list = list(solve_tree.keys())
-    json_element = next_dict(keys_list[step], solve_tree)
+    keys_list = list(solve_tree[0].keys())
+    json_element = next_dict(keys_list[step], solve_tree[0])
     return json.dumps(json_element)
+
+
+
 
 @app.route('/theory', methods=['POST', 'GET'])
 def theory_page():
@@ -98,21 +119,7 @@ def theory_page():
     текст для каждого признака находится в текстовике theory.txt. Как признаки в текстовике разграничены думаю разберешься. В текст помести единой строкой
     """
 
-    return render_template('theory.html',
-                        nth = nth_db,
-                        harm = harm_db,
-                        geom = geom_bd,
-                        coshi = coshi_bd,
-                        dalamber = dalamber_bd,
-                        cummer = cummer_bd,
-                        raabe = raabe_bd,
-                        bertran =bertran_bd,
-                        integral =integral_bd,
-                        gauss =gauss_bd,
-                        leibnic =leibnic_bd,
-                        dirihle = dirihle_bd,
-                        abel = abel_bd
-                        )
+    return render_template('theory.html')
 
 
 

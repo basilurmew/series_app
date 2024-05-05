@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style_game.css') }}">
+         <style type="text/css">
+
+             p{
+             display:none;
+             }
+
+             #results{
+             margin-top:15px;
+             }
+
+             #signs{
+             height:40%;
+             }
+
+         </style>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <title>Document</title>
+
+    </head>
+    <body>
+        <header>
+            <button onclick="location.replace('/theory')" id = "theory">Теория</button>
+             <h2>\(\sum\limits_{ {{ variable }} =1}^{\infty}{{getted_series}}\)<br></h2>
+            <button id = "main_page" onclick="location.replace('/main')">На главный экран</button>
+        </header>
+        <div id = "interactive">
+            <div id = "signs">
+                <p id = "nth" onclick="show_res('nth')">Необходимое условие ➞</p>
+                <p id = "geom"  >Геометрический ➞ </p>
+                <p id = "harm" >Гармонический ➞ </p>
+                <p id = 'cauchy' onclick="show_res('cauchy')">Радикальный признак Коши ➞ </p>
+                <p id = 'dalamber' onclick="show_res('dalamber')" >Признак Даламбера ➞ </p>
+                <p id = 'raabe' onclick="show_res('raabe')" >Признак Раабе ➞ </p>
+                <p id = 'bertran' onclick="show_res('bertran')">Признак Бертрана ➞ </p>
+                <p id = 'integral' onclick="show_res('integral')">Интегральный признак ➞ </p>
+                <p id ='gauss' onclick="show_res('gauss')">Признак Гаусса ➞ </p>
+                <p id = "converg" onclick="show_res('converg')"> Сходится</p>
+                <p id = "diverg" onclick="show_res('diverg')"> Расходится</p>
+            </div>
+            <div id = "results">
+                <p id = "answer"></p>
+                <p id = "intermediate_result"></p>
+            </div>
+        </div>
+
+
+
+        <!--<div id = "interactive">
+                <p id = "question"></p>
+            <div id = "buttons">
+                <div id = "tf">
+                    <button onclick="try_to_ask_sign_3(0)">Да</button>
+                    <button onclick="try_to_ask_sign_3(-1)">Нет</button>
+                </div>
+                <div id = "tf_nw">
+                    <button id = "converg" onclick="try_to_ask_sign_3(1)">Да</button>
+                    <button id = "not_work" onclick="try_to_ask_sign_3(0)">Не в этот раз</button>
+                    <button id ="diverg" onclick="try_to_ask_sign_3(-1)">Нет</button>
+                </div>
+                <div id = "signs">
+                    <div>
+                        <button id = 'cauchy' onclick="try_to_ask_sign('cauchy')">Радикальный признак Коши</button>
+                        <button id = 'dalamber' onclick="try_to_ask_sign('dalamber')">Признак Даламбера</button>
+                    </div>
+                    <div>
+                        <button id = 'raabe' onclick="try_to_ask_sign('raabe')">Признак Раабе</button>
+                        <button id = 'bertran' onclick="try_to_ask_sign('bertran')">Признак Бертрана</button>
+                    </div>
+                    <div>
+                        <button id = 'integral' onclick="try_to_ask_sign('integral')">Интегральный признак</button>
+                        <button id ='gauss' onclick="try_to_ask_sign('gauss')">Признак Гаусса</button>
+                    </div>
+                 </div>
+                </div>
+                <div id = "results">
+                    <p id = "answer"></p>
+                    <p id = "intermediate_result"></p>
+                </div>
+            <button id = "go" onclick="next_step_gen()">Дальше</button>
+        </div>-->
+    </body>
+    <script>
+
+        let signs = JSON.parse({{ans | tojson}});
+
+        function contains(arr, elem) {
+              return arr.indexOf(elem) != -1;
+        }
+
+        function hide_unused(){
+        all_signs = [ 'nth',
+                'geom',
+                'harm',
+                'cauchy',
+                'dalamber',
+                'raabe',
+                'bertran',
+                'integral',
+                'gauss',
+                'converg',
+                'diverg']
+
+            for(i = 0; i<11; i+=1){
+                if(contains(signs, all_signs[i])){
+                console.log(contains(signs, all_signs[i]));
+                     document.getElementById(all_signs[i]).style.display = "flex"
+                     };
+            }
+        }
+
+        hide_unused();
+
+        async function show_res(step){
+            let promise = await fetch('/solve_secondary',{
+            'method': 'POST',
+            'body':step
+            });
+            let serv_answer = await promise.json();
+            current_step = {
+                intermediate_result: serv_answer["intermediate_result"],
+                true_answer: serv_answer["true_answer"]
+            }
+
+
+           document.getElementById('intermediate_result').style.display = "flex";
+           console.log(current_step["intermediate_result"])
+           document.getElementById('intermediate_result').textContent = current_step["intermediate_result"];
+           MathJax.typeset()
+        }
+
+
+        console.log(signs);
+
+    </script>
+
+</html>
