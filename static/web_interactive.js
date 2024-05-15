@@ -3,9 +3,14 @@
 
  let current_step;
         let step = 0;
+        let max_len;
         next_step_gen()
 
         async function next_step_gen(){
+        if (step==max_len){
+           location.replace('/main/secondary_game')
+           return 0;
+           }
             let promise = await fetch('/solve',{
             'method': 'POST',
             'body':step
@@ -19,7 +24,11 @@
                 true_answer: serv_answer["true_answer"],
                 sign:serv_answer["sign"],
                 vars_of_answers: serv_answer["vars_of_answers"]
+
             }
+           max_len = serv_answer["max_len"];
+
+           console.log(max_len)
            console.log(current_step["vars_of_answers"])
            hide_and_show(current_step['sign'])
            document.getElementById("question").textContent = current_step['question']
@@ -42,6 +51,10 @@
                 document.getElementById('question').style.display = "none"
                 if (ans != 1 && ans != -1)
                     document.getElementById('go').style.display = 'flex';
+                else{
+                document.getElementById('go').style.display = 'flex';
+                document.getElementById('go').textContent = 'Показать полное решение';
+                }
                 MathJax.typeset()
             }
             else{

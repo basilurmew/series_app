@@ -67,8 +67,9 @@ def index():
 
         if(check_res[0]):
             ser = series.Series(sp.sympify(member_n), check_res[1])
-            solve_tree = add_to_db(user, password, ser)
-            if solve_tree[1] == True:
+            solve_tree, first_input = add_to_db(user, password, ser)
+            print(solve_tree)
+            if first_input == True:
                 return redirect('/main/game')
             else:
                 return redirect('/main/secondary_game')
@@ -80,13 +81,14 @@ def index():
 
 @app.route('/main/game', methods=['POST', 'GET'])
 def game():
-    return render_template("game_of_series.html", getted_series = getted_row.replace("▯", ""), variable = ser.get_str_var())
+    return render_template("game_of_series.html", getted_series = getted_row.replace("▯", ""), variable = ser.get_str_var(), max_len = len(list(solve_tree.keys())))
+
 
 @app.route('/main/secondary_game', methods=['POST', 'GET'])
 def secondary_game():
-    json_elem = list(solve_tree[0].keys())
 
-    if solve_tree[0][list(solve_tree[0].keys())[len(list(solve_tree[0].keys()))-1]][0] == -1:
+    json_elem = list(solve_tree.keys())
+    if solve_tree[list(solve_tree.keys())[len(list(solve_tree.keys()))-1]][0] == -1:
         json_elem.append('diverg')
     else:
         json_elem.append('converg')
@@ -97,7 +99,7 @@ def secondary_game():
 @app.route('/solve_secondary', methods=['POST', 'GET'])
 def solv_sec():
     step = request.data.decode('UTF-8')
-    json_element = {"true_answer" : solve_tree[0][step][0], "intermediate_result" :intermediate_result( solve_tree[0][step][1],ser )}
+    json_element = {"true_answer" : solve_tree[step][0], "intermediate_result" :intermediate_result( solve_tree[step][1],ser )}
     return json.dumps(json_element)
 
 
@@ -105,10 +107,16 @@ def solv_sec():
 @app.route('/solve', methods=['POST', 'GET'])
 def solving():
     step = int(request.data.decode('UTF-8'))
-    keys_list = list(solve_tree[0].keys())
-    json_element = next_dict(keys_list[step], solve_tree[0])
-    return json.dumps(json_element)
-
+    print("=======================================================")
+    print(step)
+    print(len(list(solve_tree.keys())))
+    if step < len(list(solve_tree.keys())):
+        keys_list = list(solve_tree.keys())
+        json_element = next_dict(keys_list[step], solve_tree)
+        json_element["max_len"] = len(list(solve_tree.keys()))
+        return json.dumps(json_element)
+    else:
+        return redirect('/main/secondary_game')
 
 
 
